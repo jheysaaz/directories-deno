@@ -1,5 +1,8 @@
 {
+  "name": "@jheysaaz/directories",
   "version": "2.0.0",
+  "license": "MIT",
+  "exports": "./mod.ts",
   "tasks": {
     "test": "deno test --allow-env",
     "check": "deno check mod.ts",
