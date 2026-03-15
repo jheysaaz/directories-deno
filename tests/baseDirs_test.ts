@@ -1,4 +1,4 @@
-import { assertEquals, assertMatch } from "jsr:@std/assert";
+import { assertEquals, assertMatch } from "jsr:@std/assert@^1.0.19";
 import { baseDirs } from "../mod.ts";
 
 Deno.test("baseDirs.setup() returns non-empty strings", () => {

@@ -1,4 +1,4 @@
-import { assertMatch } from "jsr:@std/assert";
+import { assertMatch } from "jsr:@std/assert@^1.0.19";
 import { projectDirs } from "../mod.ts";
 
 const QUALIFIER = "com";
