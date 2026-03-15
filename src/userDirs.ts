@@ -1,5 +1,6 @@
 import { baseDirs } from "../mod.ts";
 
+/** Platform-specific user directories for the current user. */
 export interface UserDirs {
   /** The user's home directory. */
   homeDir: string;

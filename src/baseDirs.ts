@@ -1,3 +1,4 @@
+/** Platform-specific base directories for the current user. */
 export interface BaseDirs {
   /** The user's home directory. */
   homeDir: string;

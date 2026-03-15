@@ -1,5 +1,6 @@
 import { baseDirs } from "../mod.ts";
 
+/** Platform-specific directories for a specific application. */
 export interface ProjectDirs {
   /** Directory for project-specific cached data. */
   cacheDir: string;
