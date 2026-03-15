@@ -1,4 +1,5 @@
 import { assertMatch } from "jsr:@std/assert@^1.0.19";
+import { getOS } from "../src/_runtime.ts";
 import { projectDirs } from "../mod.ts";
 
 const QUALIFIER = "com";
@@ -19,23 +20,20 @@ Deno.test("projectDirs.setup() includes application in all paths", () => {
 Deno.test("projectDirs.setup() uses correct format per platform", () => {
   const dirs = projectDirs.setup(QUALIFIER, ORG, APP);
 
-  switch (Deno.build.os) {
+  switch (getOS()) {
     case "linux":
-      // Linux: only application segment
       assertMatch(dirs.cacheDir, /\.cache\/MyApp$/);
       assertMatch(dirs.configDir, /\.config\/MyApp$/);
       assertMatch(dirs.dataDir, /\.local\/share\/MyApp$/);
       break;
 
     case "darwin":
-      // macOS: reverse-DNS qualifier.org.app
       assertMatch(dirs.cacheDir, /com\.example\.MyApp$/);
       assertMatch(dirs.configDir, /com\.example\.MyApp$/);
       assertMatch(dirs.preferenceDir, /com\.example\.MyApp$/);
       break;
 
     case "windows":
-      // Windows: org\app
       assertMatch(dirs.cacheDir, /example\\MyApp$/);
       assertMatch(dirs.configDir, /example\\MyApp$/);
       assertMatch(dirs.dataLocalDir, /example\\MyApp$/);

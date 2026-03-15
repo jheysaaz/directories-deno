@@ -1,4 +1,5 @@
 import { baseDirs } from "../mod.ts";
+import { getOS } from "./_runtime.ts";
 
 /** Platform-specific directories for a specific application. */
 export interface ProjectDirs {
@@ -23,6 +24,8 @@ export interface ProjectDirs {
  * - On **macOS** paths use the reverse-DNS bundle-ID style:
  *   `qualifier.organization.application`.
  * - On **Windows** paths use `organization\application`.
+ *
+ * Compatible with Deno, Node.js, and Bun.
  *
  * @param qualifier - Reverse-DNS qualifier, e.g. `"com"`.
  * @param organization - Organisation name, e.g. `"example"`.
@@ -53,7 +56,7 @@ export function setup(
     preferenceDir: "",
   };
 
-  switch (Deno.build.os) {
+  switch (getOS()) {
     case "linux":
       dirs.cacheDir = `${base.cacheDir}/${application}`;
       dirs.configDir = `${base.configDir}/${application}`;

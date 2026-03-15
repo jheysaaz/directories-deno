@@ -1,4 +1,5 @@
 import { baseDirs } from "../mod.ts";
+import { getEnv, getOS } from "./_runtime.ts";
 
 /** Platform-specific user directories for the current user. */
 export interface UserDirs {
@@ -33,6 +34,8 @@ export interface UserDirs {
  * `XDG_DESKTOP_DIR`) are respected when set, falling back to conventional
  * defaults otherwise.
  *
+ * Compatible with Deno, Node.js, and Bun.
+ *
  * @returns A {@link UserDirs} object with all resolved directory paths.
  *
  * @example
@@ -58,23 +61,21 @@ export function setup(): UserDirs {
     trashDir: "",
   };
 
-  switch (Deno.build.os) {
+  switch (getOS()) {
     case "linux":
-      dirs.musicDir = Deno.env.get("XDG_MUSIC_DIR") || `${dirs.homeDir}/Music`;
-      dirs.desktopDir = Deno.env.get("XDG_DESKTOP_DIR") ||
-        `${dirs.homeDir}/Desktop`;
-      dirs.documentDir = Deno.env.get("XDG_DOCUMENTS_DIR") ||
+      dirs.musicDir = getEnv("XDG_MUSIC_DIR") || `${dirs.homeDir}/Music`;
+      dirs.desktopDir = getEnv("XDG_DESKTOP_DIR") || `${dirs.homeDir}/Desktop`;
+      dirs.documentDir = getEnv("XDG_DOCUMENTS_DIR") ||
         `${dirs.homeDir}/Documents`;
-      dirs.downloadDir = Deno.env.get("XDG_DOWNLOAD_DIR") ||
+      dirs.downloadDir = getEnv("XDG_DOWNLOAD_DIR") ||
         `${dirs.homeDir}/Downloads`;
-      dirs.fontDir = `${Deno.env.get("XDG_DATA_HOME") ?? base.dataDir}/fonts`;
-      dirs.pictureDir = Deno.env.get("XDG_PICTURES_DIR") ||
+      dirs.fontDir = `${getEnv("XDG_DATA_HOME") ?? base.dataDir}/fonts`;
+      dirs.pictureDir = getEnv("XDG_PICTURES_DIR") ||
         `${dirs.homeDir}/Pictures`;
-      dirs.publicDir = Deno.env.get("XDG_PUBLICSHARE_DIR") ||
+      dirs.publicDir = getEnv("XDG_PUBLICSHARE_DIR") ||
         `${dirs.homeDir}/Public`;
-      dirs.videoDir = Deno.env.get("XDG_VIDEOS_DIR") ||
-        `${dirs.homeDir}/Videos`;
-      dirs.templateDir = Deno.env.get("XDG_TEMPLATES_DIR") ||
+      dirs.videoDir = getEnv("XDG_VIDEOS_DIR") || `${dirs.homeDir}/Videos`;
+      dirs.templateDir = getEnv("XDG_TEMPLATES_DIR") ||
         `${dirs.homeDir}/Templates`;
       dirs.trashDir = `${base.dataDir}/Trash`;
       break;
