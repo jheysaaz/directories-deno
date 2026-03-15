@@ -1,17 +1,42 @@
 import { baseDirs } from "../mod.ts";
 
 export interface ProjectDirs {
+  /** Directory for project-specific cached data. */
   cacheDir: string;
+  /** Directory for project-specific configuration files. */
   configDir: string;
+  /** Directory for project-specific data files. */
   dataDir: string;
+  /** Directory for project-specific local (non-roaming) data files. */
   dataLocalDir: string;
+  /** Directory for project-specific preference/settings files. */
   preferenceDir: string;
 }
 
 /**
- * @param qualifier
- * @param organization
- * @param application
+ * Returns platform-specific project directories for the given application
+ * identity.
+ *
+ * - On **Linux** only the `application` segment is used, following the XDG
+ *   Base Directory Specification.
+ * - On **macOS** paths use the reverse-DNS bundle-ID style:
+ *   `qualifier.organization.application`.
+ * - On **Windows** paths use `organization\application`.
+ *
+ * @param qualifier - Reverse-DNS qualifier, e.g. `"com"`.
+ * @param organization - Organisation name, e.g. `"example"`.
+ * @param application - Application name, e.g. `"MyApp"`.
+ * @returns A {@link ProjectDirs} object with all resolved directory paths.
+ *
+ * @example
+ * ```ts
+ * import { projectDirs } from "./mod.ts";
+ * const dirs = projectDirs.setup("com", "example", "MyApp");
+ * console.log(dirs.configDir);
+ * // Linux:   /home/user/.config/MyApp
+ * // macOS:   /Users/user/Library/Application Support/com.example.MyApp
+ * // Windows: C:\Users\user\AppData\Roaming\example\MyApp
+ * ```
  */
 export function setup(
   qualifier: string,

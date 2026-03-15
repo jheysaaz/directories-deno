@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": {
+    "test": "deno test --allow-env",
+    "check": "deno check mod.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint"
+  },
+  "fmt": {
+    "lineWidth": 80
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  }
+}
